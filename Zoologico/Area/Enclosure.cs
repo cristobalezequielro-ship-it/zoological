@@ -1,63 +1,62 @@
 ﻿
-
 namespace Zoologico.Area
 {
     public abstract class Enclosure
     {
-        public int Id { get; }
-        public string Name { get; set; }
-        public AreaType Type { get; set; }
-        public int MaxCapacity { get; set; }
-        public List<Zoologico.Animal.Animal> CurrentAnimals { get; } = new List<Zoologico.Animal.Animal>();
-        protected Enclosure(int id, string name, int maxCapacity, AreaType areaType)
+        public int Id { get; private set; }
+        public string Name { get; private set; }
+        public int Capacity { get; private set; }
+        public AreaType Type { get; private set; }
+        protected List<Animal.Animal> Animals { get; set; } = new List<Animal.Animal>();
+
+        public Enclosure(int id, string name, int capacity, AreaType type)
         {
             this.Id = id;
             this.Name = name;
-            this.MaxCapacity = maxCapacity;
-            this.Type = areaType;
+            this.Capacity = capacity;
+            this.Type = type;
         }
 
-        public virtual bool AddAnimal(Zoologico.Animal.Animal animal)
+        public virtual bool AddAnimal(Animal.Animal animal)
         {
-            if (CurrentAnimals.Count < MaxCapacity)
+            if (Animals.Count >= Capacity)
             {
-                CurrentAnimals.Add(animal);
-                animal.Enclosure = this.Name;
-                Console.WriteLine($"Se agregó a {animal.Name} al recinto {this.Name}.");
-                return true;
-            }
-            else
-            {
-                Console.WriteLine($"No se puede agregar {animal.Name} a {this.Name}: capacidad máxima alcanzada.");
+                Console.WriteLine($"Error: The enclosure {this.Name} is full.");
                 return false;
             }
+            if (Animals.Any(a => a.Name.Equals(animal.Name, StringComparison.OrdinalIgnoreCase)))
+            {
+                Console.WriteLine($"Error: The animal {animal.Name} is already in the enclosure {this.Name}.");
+                return false;
+            }
+            Animals.Add(animal);
+            return true;
         }
 
-        public bool RemoveAnimal(string name)
+        public bool RemoveAnimal(string animalName)
         {
-            var animalToRemove = CurrentAnimals.FirstOrDefault(a => a.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
-
+            var animalToRemove = Animals.FirstOrDefault(a => a.Name.Equals(animalName, StringComparison.OrdinalIgnoreCase));
             if (animalToRemove != null)
             {
-                CurrentAnimals.Remove(animalToRemove);
-                animalToRemove.Enclosure = "None";
-                Console.WriteLine($"{animalToRemove.Name} ha sido retirado con éxito de {this.Name}.");
+                Animals.Remove(animalToRemove);
+                Console.WriteLine($"\nAnimal {animalName} successfully removed from {this.Name}.");
                 return true;
             }
             return false;
         }
-
-        public void ListAnimals()
+        public virtual void ListAnimals()
         {
-            Console.WriteLine($"\n--- Animales en el recinto {this.Name} (ID: {this.Id}, Tipo: {this.Type}) ---");
-            if (CurrentAnimals.Count == 0)
+            Console.WriteLine($"--- Animals in {this.Name} (ID: {this.Id}, Tipo: {this.Type}) ---");
+            if (this.Animals.Any())
             {
-                Console.WriteLine("El recinto está vacío.");
-                return;
+                foreach (var animal in this.Animals)
+                {
+                    Console.WriteLine(animal.GetInformation());
+                }
             }
-            foreach (var animal in CurrentAnimals)
+            else
             {
-                Console.WriteLine(animal.GetInformation());
+                Console.WriteLine("The enclosure is empty.");
             }
         }
     }

@@ -1,13 +1,10 @@
 ﻿
 namespace Zoologico.Animal
 {
-    
-    public class Terrestrial : Vertebrado, ITerrestrial, IPredator 
+    public class Terrestrial : Vertebrado, ITerrestrial, IPredator
     {
-        public HealthStatus HealthStatus { get; set; }
-        public DietType Diet { get; set; }
-        public Terrestrial(string name, int ageInMonths, string enclosureName, HealthStatus healthStatus, DietType diet)
-            : base("Animal Terrestre", name, ageInMonths, enclosureName)
+        public Terrestrial(string species, string name, int ageInMonths, string enclosureName, HealthStatus healthStatus, DietType diet)
+            : base(species, name, ageInMonths, enclosureName)
         {
             this.HealthStatus = healthStatus;
             this.Diet = diet;

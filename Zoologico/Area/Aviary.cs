@@ -1,13 +1,11 @@
-﻿
-using Zoologico.Animal;
-
-
+﻿using Zoologico.Animal;
 namespace Zoologico.Area
 {
     public class Aviary : Enclosure
     {
         public double HeightMeters { get; set; }
         public bool MixPredatorsAndPrey { get; set; }
+
         public Aviary(int id, string name, int capacity, double height, bool mixPredatorsPrey = false)
             : base(id, name, capacity, AreaType.Aereo)
         {
@@ -27,7 +25,7 @@ namespace Zoologico.Area
                 if (!this.MixPredatorsAndPrey)
                 {
                     bool isNewPredator = animal is IPredator;
-                    bool hasConflict = CurrentAnimals.Any(a => (a is IPredator) != isNewPredator);
+                    bool hasConflict = Animals.Any(a => (a is IPredator) != isNewPredator);
 
                     if (hasConflict)
                     {

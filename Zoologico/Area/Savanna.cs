@@ -1,6 +1,4 @@
-﻿
-using Zoologico.Animal;
-
+﻿using Zoologico.Animal;
 
 namespace Zoologico.Area
 {
@@ -25,7 +23,7 @@ namespace Zoologico.Area
                 if (!this.MixPredatorsAndPrey)
                 {
                     bool isNewPredator = animal is IPredator;
-                    bool hasConflict = CurrentAnimals.Any(a => (a is IPredator) != isNewPredator);
+                    bool hasConflict = Animals.Any(a => (a is IPredator) != isNewPredator);
 
                     if (hasConflict)
                     {

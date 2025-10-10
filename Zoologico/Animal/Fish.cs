@@ -1,63 +1,48 @@
 ﻿
 using Zoologico.Area;
+
 namespace Zoologico.Animal
 {
     public class Fish : Vertebrado, IAcuatic
     {
         private SalinityLevel waterPreference;
 
-        public SalinityLevel WaterType { get; set; }
-
         public SalinityLevel SalinityPreference
         {
             get { return this.waterPreference; }
         }
-
+        public SalinityLevel WaterType { get; set; }
         public bool HasGills => true;
         public Fish(string species, string name, int ageInMonths, string enclosureName,
-                    SalinityLevel waterPreference, HealthStatus healthStatus, DietType diet)
+                    SalinityLevel salinityWaterPreference, HealthStatus healthStatus, DietType diet)
             : base(species, name, ageInMonths, enclosureName)
         {
-            this.waterPreference = waterPreference;
-            this.HealthStatus = healthStatus; 
-            this.Diet = diet; 
-            this.WaterType = waterPreference;
+            this.waterPreference = salinityWaterPreference;
+            this.HealthStatus = healthStatus;
+            this.Diet = diet;
+            this.WaterType = salinityWaterPreference;
         }
-        public void Swim()
-        {
-            switch (this.waterPreference)
-            {
-                case SalinityLevel.Freshwater:
-                    Console.WriteLine($"{this.Name} está nadando tranquilamente en agua dulce.");
-                    break;
-                case SalinityLevel.Saltwater:
-                    Console.WriteLine($"{this.Name} está nadando activamente en agua salada.");
-                    break;
-                default:
-                    Console.WriteLine($"{this.Name} está nadando.");
-                    break;
-            }
-        }
-        public override void MakeSound()
-        {
-            Console.WriteLine("Blub blub");
-        }
+
+        public void Swim() => Console.WriteLine($"{this.Name} is swimming.");
+        public override void MakeSound() => Console.WriteLine("Blub blub");
 
         public override void Eat(string foodItem)
         {
+            string dietString = $"{this.Name}";
+
             switch (this.Diet)
             {
                 case DietType.Carnivore:
-                    Console.WriteLine($"{this.Name} (Carnívoro) devora {foodItem} con un movimiento rápido.");
+                    Console.WriteLine($"{dietString} devours {foodItem} with a quick movement.");
                     break;
                 case DietType.Herbivore:
-                    Console.WriteLine($"{this.Name} (Herbívoro) filtra las algas y plancton de {foodItem}.");
+                    Console.WriteLine($"{dietString} filters algae and plankton from {foodItem}.");
                     break;
                 case DietType.Omnivore:
-                    Console.WriteLine($"{this.Name} (Omnívoro) mordisquea {foodItem} cerca de la superficie.");
+                    Console.WriteLine($"{dietString} nibbles {foodItem} near the surface.");
                     break;
                 default:
-                    base.Eat(foodItem);
+                    Console.WriteLine($"{dietString} is eating {foodItem}.");
                     break;
             }
         }
