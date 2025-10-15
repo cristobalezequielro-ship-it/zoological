@@ -1,7 +1,5 @@
 ﻿using Zoologico.Animal;
 using Zoologico.Area;
-
-
 namespace Zoologico
 {
     public class ZooService
@@ -17,12 +15,13 @@ namespace Zoologico
         private void InitializeEnclosures()
         {
             int nextId = 1;
-            var acuarioPrincipal = new Area.Aquarium(nextId++, "Acuario Principal", 5, SalinityLevel.Saltwater);
+            var acuarioSalado = new Area.Aquarium(nextId++, "Acuario Salado", 5, SalinityLevel.Saltwater);
+            var acuarioDulce = new Area.Aquarium(nextId++, "Acuario Dulce", 5, SalinityLevel.Freshwater);
 
             var aviarioCentral = new Area.Aviary(nextId++, "Aviario Tropical", 3, 30.0, false);
             var sabanaAfricana = new Area.Savanna(nextId++, "Sabana de Fauna Mayor", 2, true);
-
-            recintosDelZoo.Add(acuarioPrincipal);
+            recintosDelZoo.Add(acuarioSalado);
+            recintosDelZoo.Add(acuarioDulce);
             recintosDelZoo.Add(aviarioCentral);
             recintosDelZoo.Add(sabanaAfricana);
         }
@@ -30,9 +29,12 @@ namespace Zoologico
         private void AddInitialAnimals()
         {
             Console.WriteLine("\n--- Adding Initial Animals ---");
-            var fish = new Fish("Pez Payaso", "Nemo", 18, "Acuario Principal", SalinityLevel.Saltwater, HealthStatus.Optima, DietType.Omnivore);
-            recintosDelZoo.First(r => r.Name == "Acuario Principal").AddAnimal(fish);
-            Console.WriteLine($"[INFO] Added {fish.Name} to Acuario Principal.");
+            var fish = new Fish("Pez Payaso", "Nemo", 18, "Acuario Salado", SalinityLevel.Saltwater, HealthStatus.Optima, DietType.Omnivore);
+            recintosDelZoo.First(r => r.Name == "Acuario Salado").AddAnimal(fish);
+            Console.WriteLine($"[INFO] Added {fish.Name} to Acuario Salado.");
+            var freshFish = new Fish("Carpa", "Goldie", 12, "Acuario Dulce", SalinityLevel.Freshwater, HealthStatus.Good, DietType.Herbivore);
+            recintosDelZoo.First(r => r.Name == "Acuario Dulce").AddAnimal(freshFish);
+            Console.WriteLine($"[INFO] Added {freshFish.Name} to Acuario Dulce.");
             var bird = new Bird("Loro Gris", "Coco", 36, "Aviario Tropical", HealthStatus.Good, DietType.Herbivore, "Gris");
             recintosDelZoo.First(r => r.Name == "Aviario Tropical").AddAnimal(bird);
             Console.WriteLine($"[INFO] Added {bird.Name} to Aviario Tropical.");
@@ -78,6 +80,7 @@ namespace Zoologico
             }
             Console.WriteLine("Execution finished. Goodbye!");
         }
+
         private Enclosure GetSelectedEnclosure()
         {
             Console.WriteLine("\n--- SELECT ENCLOSURE ---");
@@ -177,8 +180,6 @@ namespace Zoologico
             switch (behaviorChoice)
             {
                 case "1":
-                    targetEnclosureName = "Acuario Principal";
-
                     SalinityLevel finalSalinity;
                     int waterChoiceInt;
                     do
@@ -190,11 +191,13 @@ namespace Zoologico
                         if (waterChoiceInt == 1)
                         {
                             finalSalinity = SalinityLevel.Freshwater;
+                            targetEnclosureName = "Acuario Dulce";
                             break;
                         }
                         else if (waterChoiceInt == 2)
                         {
                             finalSalinity = SalinityLevel.Saltwater;
+                            targetEnclosureName = "Acuario Salado";
                             break;
                         }
                         else
@@ -231,6 +234,7 @@ namespace Zoologico
                 Console.WriteLine("Error: Could not find the enclosure or create the animal.");
             }
         }
+
         private void HandleRemoveAnimal()
         {
             Console.WriteLine("\n--- REMOVE ANIMAL ---");
@@ -305,6 +309,7 @@ namespace Zoologico
 
             return true;
         }
+
         private int CalculateAgeInMonths(int day, int month, int year)
         {
             var birthDate = new DateTime(year, month, day);
