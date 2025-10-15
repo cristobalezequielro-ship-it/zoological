@@ -107,9 +107,9 @@ namespace Zoologico
         {
             Console.WriteLine("\n--- ADD ANIMAL ---");
             Console.WriteLine("Which type of **behavior** do you want to add?");
-            Console.WriteLine("1. Swimmer (Aquatic) 🐟");
-            Console.WriteLine("2. Flyer (Aerial) 🦅");
-            Console.WriteLine("3. Terrestrial (Savanna) 🦒");
+            Console.WriteLine("1. Swimmer (Aquatic) ");
+            Console.WriteLine("2. Flyer (Aerial) ");
+            Console.WriteLine("3. Terrestrial (Savanna)");
             Console.Write("Enter your choice: ");
             string behaviorChoice = Console.ReadLine();
 
